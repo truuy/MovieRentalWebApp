@@ -38,7 +38,7 @@ Ext.define('MovieRentalUI.view.CustomerGrid', {
     height: 500,
     controller: 'customergridcontroller', // Add the controller
     listeners: {
-        itemclick: 'onItemClick'
+        itemclick: 'onCustomerItemClick'
     },
     
     tbar: [

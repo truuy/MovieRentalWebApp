@@ -43,13 +43,7 @@ Ext.define('MovieRentalUI.controller.CustomerGridController', {
                             width: 700,
                             value: record.get('phone')
                         },
-                        {
-                            xtype: 'textfield',
-                            name: 'rentOrders',
-                            fieldLabel: 'Total Orders',
-                            width: 700,
-                            value: record.get('rentOrders')[0].orderQuantity
-                        },
+                        
                         
                     ]
                 }

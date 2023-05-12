@@ -26,7 +26,7 @@ Ext.define('MovieRentalUI.view.MoviesGrid', {
     autoScroll: true,
     controller: 'moviesgridcontroller', // Add the controller
     listeners: {
-        itemclick: 'onItemClick'
+        itemclick: 'onMovieItemClick'
     },
     tbar: [
         {

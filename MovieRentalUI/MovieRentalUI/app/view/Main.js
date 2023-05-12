@@ -36,38 +36,8 @@ Ext.define('MovieRentalUI.view.Main', {
                         items: [
                             {
                                 xtype: 'form', 
-                                bodyPadding: 10,
+                                
                                 items: [
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'First Name',
-                                        name: 'firstName',
-                                        allowBlank: false
-                                    },
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Last Name',
-                                        name: 'lastName',
-                                        allowBlank: false
-                                    },
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Phone',
-                                        name: 'phone',
-                                        allowBlank: false
-                                    },
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Email',
-                                        name: 'email',
-                                        allowBlank: false
-                                    },
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Address',
-                                        name: 'address',
-                                        allowBlank: true
-                                    },
 
                                     // Call the MoviesRentalWindow grid
                                     {
