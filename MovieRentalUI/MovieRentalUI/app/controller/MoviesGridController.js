@@ -1,6 +1,7 @@
 Ext.define('MovieRentalUI.controller.MoviesGridController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.moviesgridcontroller',
+    stores: ['Movies'],
 
     onItemClick: function(grid, record) {
         var movieForm = Ext.create('Ext.form.Panel', {
@@ -133,6 +134,19 @@ Ext.define('MovieRentalUI.controller.MoviesGridController', {
         movieForm.loadRecord(record);
     
         movieWindow.show();
+    },
+
+    onSearchKeyUp: function(textfield) {
+        var searchString = textfield.getValue();
+        var store = this.getStore('MoviesStore'); // Access the store using this.getStore()
+        store.clearFilter();
+        if (searchString) {
+            var regex = new RegExp(searchString, 'i');
+            store.filterBy(function(record) {
+                return regex.test(record.get('title')) || regex.test(record.get('genre'));
+            });
+        }
     }
     
 });
+

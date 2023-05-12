@@ -2,6 +2,7 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'moviesRental',
     id: 'moviesRental',
+    controller: 'moviesgridcontroller', // Add the controller
     // Set the viewmodel
     viewModel: {
         type: 'moviesvm'
@@ -10,6 +11,18 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
     bind: {
         store: '{movies}'
     },
+    dockedItems: [{
+        xtype: 'toolbar',
+        dock: 'top',
+        items: [{
+            xtype: 'textfield',
+            emptyText: 'Search movies...',
+            enableKeyEvents: true,
+            listeners: {
+                //keyup: 'onSearchKeyUp' // Use the controller function as the handler
+            }
+        }]
+    }],
 
     columns: [
         { text: 'Title', dataIndex: 'title' },
@@ -23,9 +36,6 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
     width: 900,
     height: 500,
     margin: '50 0 0 0',
-    autoScroll: true,
-    controller: 'moviesgridcontroller', // Add the controller
-    listeners: {
-        itemclick: 'onItemClick'
-    }
+    autoScroll: true
+   
 });
