@@ -16,28 +16,37 @@ namespace MovieRental.Controllers
             this.videoShopContext = videoShopContext;
         }
 
+        // GET api/orders
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await videoShopContext.RentOrders.ToListAsync();
+            return Ok(orders);
+        }
+
+
         // GET api/orders/movie/{movieId}
         [HttpGet("movie/{movieId}")]
-        public IActionResult GetOrdersByMovie(Guid movieId)
+        public async Task<IActionResult> GetOrdersByMovie(Guid movieId)
         {
             // Code for retrieving orders by movie
-            var ordersForMovie = videoShopContext.RentOrders.Where(order => order.ItemId == movieId).ToList();
+            var ordersForMovie = await videoShopContext.RentOrders.Where(order => order.ItemId == movieId).ToListAsync();
             return Ok(ordersForMovie);
 
         }
 
         // GET api/orders/customer/{customerId}
         [HttpGet("customer/{customerId}")]
-        public IActionResult GetOrdersByCustomer(Guid customerId)
+        public async Task<IActionResult> GetOrdersByCustomer(Guid customerId)
         {
             // Code for retrieving orders by customer ID
-            var ordersForCustomer = videoShopContext.RentOrders.Where(order => order.CustomerId == customerId).ToList();
+            var ordersForCustomer = await videoShopContext.RentOrders.Where(order => order.CustomerId == customerId).ToListAsync();
             return Ok(ordersForCustomer);
         }
 
         // POST api/orders
         [HttpPost]
-        public IActionResult CreateOrder(OrderDTO orderModel)
+        public async Task<IActionResult> CreateOrder(OrderDTO orderModel)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +70,44 @@ namespace MovieRental.Controllers
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        // PUT api/orders/{orderId}
+        [HttpPut("{orderId}")]
+        public async Task<IActionResult> EditOrder(Guid orderId, OrderDTO orderModel)
+        {
+            var existingOrder = videoShopContext.RentOrders.FirstOrDefault(order => order.OrderId == orderId);
+            if (existingOrder == null)
+            {
+                return NotFound();
+            }
+
+            // Update the existing order
+            existingOrder.ItemId = orderModel.ItemId;
+            existingOrder.CustomerId = orderModel.CustomerId;
+            existingOrder.OrderQuantity = orderModel.OrderQuantity;
+
+            // Save the changes to the database
+            videoShopContext.SaveChanges();
+
+            return Ok(existingOrder);
+        }
+
+        // DELETE api/orders/{orderId}
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> DeleteOrder(Guid orderId)
+        {
+            var existingOrder = videoShopContext.RentOrders.FirstOrDefault(order => order.OrderId == orderId);
+            if (existingOrder == null)
+            {
+                return NotFound();
+            }
+
+            // Remove the order from the database
+            videoShopContext.RentOrders.Remove(existingOrder);
+            videoShopContext.SaveChanges();
+
+            return Ok();
         }
     }
 }

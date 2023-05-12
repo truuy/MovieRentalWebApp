@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieRental", "MovieRental\MovieRental.csproj", "{1C26C0C2-6052-49FA-8507-717160777275}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "videoshop_db", "..\..\databases\videoshop_db\videoshop_db\videoshop_db.sqlproj", "{A8B8554E-0366-4650-8F6F-E7294F7D9EB0}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "videoshop_db", "..\..\..\databases\videoshop_db\videoshop_db\videoshop_db.sqlproj", "{A8B8554E-0366-4650-8F6F-E7294F7D9EB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

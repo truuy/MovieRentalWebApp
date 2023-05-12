@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\c#\\MovieRental\\MovieRental\\MovieRental.csproj": {}
+    "D:\\Projects\\c#\\MovieRentalWebApp\\MovieRental\\MovieRental\\MovieRental.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\c#\\MovieRental\\MovieRental\\MovieRental.csproj": {
+    "D:\\Projects\\c#\\MovieRentalWebApp\\MovieRental\\MovieRental\\MovieRental.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\c#\\MovieRental\\MovieRental\\MovieRental.csproj",
+        "projectUniqueName": "D:\\Projects\\c#\\MovieRentalWebApp\\MovieRental\\MovieRental\\MovieRental.csproj",
         "projectName": "MovieRental",
-        "projectPath": "D:\\Projects\\c#\\MovieRental\\MovieRental\\MovieRental.csproj",
+        "projectPath": "D:\\Projects\\c#\\MovieRentalWebApp\\MovieRental\\MovieRental\\MovieRental.csproj",
         "packagesPath": "C:\\Users\\Troy\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\c#\\MovieRental\\MovieRental\\obj\\",
+        "outputPath": "D:\\Projects\\c#\\MovieRentalWebApp\\MovieRental\\MovieRental\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
