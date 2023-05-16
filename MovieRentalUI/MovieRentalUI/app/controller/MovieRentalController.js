@@ -1,124 +1,82 @@
 Ext.define('MovieRentalUI.controller.MovieRentalController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.movierentalcontroller',
-    stores: ['Movies','Customers'],
-
-    onMovieItemClick: function(grid, record) {
-        var movieForm = Ext.create('Ext.form.Panel', {
-            bodyPadding: 10,
-            items: [
-                {
-                    xtype: 'textfield',
-                    name: 'title',
-                    fieldLabel: 'Movie title',
-                    width: 300
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'releaseYear',
-                    fieldLabel: 'Release Year',
-                    width: 300
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'genre',
-                    fieldLabel: 'Genre',
-                    width: 300
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'rating',
-                    fieldLabel: 'Ratings',
-                    width: 300
-
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'availableCopies',
-                    fieldLabel: 'Available Copies',
-                    width: 300
+  
+    onSubmitClick: function() {
+      var customersGrid = this.lookupReference('customersGrid');
+      var moviesGrid = this.lookupReference('moviesGrid');
+      var customersSelection = customersGrid.getSelectionModel().getSelection();
+      var moviesSelection = moviesGrid.getSelectionModel().getSelection();
+  
+      if (customersSelection.length === 0 || moviesSelection.length === 0) {
+        // No customer or movie selected, handle the error or show a message
+        return;
+      }
+  
+      var customerId = customersSelection[0].get('customerId');
+      var orderData = [];
+  
+      Ext.each(moviesSelection, function(movie) {
+        var itemId = movie.get('movieId');
+        var orderQuantity = 1;
+  
+        var order = {
+          itemId: itemId,
+          customerId: customerId,
+          orderQuantity: orderQuantity
+        };
+  
+        orderData.push(order);
+      });
+  
+      console.log(JSON.stringify(orderData));
+  
+      // Create a JSON object with the orderData
+      var jsonData = {
+        orderModels: orderData
+      };
+        
+        // Create new records with the form values
+        var newOrders = Ext.create('MovieRentalUI.model.Rents');
+        newOrders.set( jsonData); // Set the orderModels field
+    
+        var store = Ext.getStore('rentstore');
+    
+        if (!store) {
+            store = Ext.create('MovieRentalUI.store.RentStore');
+            store.load({
+                callback: function(records, operation, success) {
+                    if (success) {
+                        // Store loaded successfully
+                        newOrders.save({
+                            url: store.getProxy().api.create,
+                            success: function(record, operation) {
+                                Ext.Msg.alert('Success', 'Order added successfully');
+                                // Add the new movies to the store
+                                store.add(record);
+                            },
+                            failure: function(record, operation) {
+                                Ext.Msg.alert('Error', 'Failed to add order');
+                            },
+                            callback: function(record, operation, success) {
+                                if (!success) {
+                                    console.log(operation.getError());
+                                }
+                            }
+                        });
+                    } else {
+                        // Failed to load the store
+                        console.log(operation.getError());
+                    }
                 }
-            ]
-        });
-    
-        var movieWindow = Ext.create('Ext.window.Window', {
-            title: 'Edit Movies',
-            width: 500,
-            height: 500,
-            layout: 'fit',
-            items: [movieForm],
-            
-        });
-    
-        // Load the selected record's data into the form fields
-        movieForm.loadRecord(record);
-    
-        movieWindow.show();
-    },
-
-    onSearchKeyUp: function(textfield) {
-        var searchString = textfield.getValue();
-        var store = this.getStore('MoviesStore'); // Access the store using this.getStore()
-        store.clearFilter();
-        if (searchString) {
-            var regex = new RegExp(searchString, 'i');
-            store.filterBy(function(record) {
-                return regex.test(record.get('title')) || regex.test(record.get('genre'));
             });
+        } else {
+            // Store is already loaded
+            console.log('store loaded');
         }
-    },
-
-    onCustomerItemClick: function(grid, record) {
-        var customerId = record.get('customerId');
-
-        var customerWindow = Ext.create('Ext.window.Window', {
-            title: 'Edit Customer',
-            width: 500,
-            height: 500,
-            layout: 'fit',
-            items: [
-                {
-                    xtype: 'form',
-                    bodyPadding: 10,
-                    items: [
-                        {
-                            xtype: 'textfield',
-                            name: 'firstName',
-                            fieldLabel: 'First Name',
-                            width: 700,
-                            value: record.get('firstName')
-                        },
-                        {
-                            xtype: 'textfield',
-                            name: 'lastName',
-                            fieldLabel: 'Last Name',
-                            width: 700,
-                            value: record.get('lastName')
-                        },
-                        {
-                            xtype: 'textfield',
-                            name: 'email',
-                            fieldLabel: 'Email',
-                            width: 700,
-                            value: record.get('email')
-                        },
-                        {
-                            xtype: 'textfield',
-                            name: 'phone',
-                            fieldLabel: 'Phone',
-                            width: 700,
-                            value: record.get('phone')
-                        },
-                        
-                        
-                    ]
-                }
-            ],
-            
-        });
-
-        customerWindow.show();
     }
     
+    
+    
+    
 });
-

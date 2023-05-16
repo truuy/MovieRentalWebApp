@@ -21,16 +21,13 @@ Ext.define('MovieRentalUI.view.CustomerGrid', {
         {
             text: 'RentOrders',
             dataIndex: 'rentOrders',
-            renderer: function (value) {
+            renderer: function (value, metaData, record) {
                 // Customize the rendering of rentOrders data
                 if (value) {
-                    var rentOrders = Ext.Array.map(value, function (order) {
-                        return  order.orderQuantity;
-                    });
-                    return rentOrders.join('<br>');
+                  return value.length;
                 }
-                return '';
-            }
+                return 0;
+              }
         },
     ],
     forceFit: true,
@@ -38,7 +35,7 @@ Ext.define('MovieRentalUI.view.CustomerGrid', {
     height: 500,
     controller: 'customergridcontroller', // Add the controller
     listeners: {
-        itemclick: 'onCustomerItemClick'
+        itemclick: 'onItemClick'
     },
     
     tbar: [
@@ -49,12 +46,7 @@ Ext.define('MovieRentalUI.view.CustomerGrid', {
                 var customerForm = Ext.create('Ext.form.Panel', {
                     bodyPadding: 10,
                     items: [
-                        {
-                            xtype: 'textfield',
-                            name: 'customerId',
-                            fieldLabel: 'CustomerID',
-                            width: 300
-                        },
+                        
                         {
                             xtype: 'textfield',
                             name: 'firstName',

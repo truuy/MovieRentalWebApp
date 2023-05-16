@@ -24,6 +24,7 @@ Ext.define('MovieRentalUI.view.Main', {
                 handler: function() {
                     // Load movies data when clicked
                     onMoviesBtnClick();
+                    onCustomerBtnClick();
                 
                     // Create an instance of a window
                     var win = Ext.create('Ext.window.Window', {
@@ -53,10 +54,8 @@ Ext.define('MovieRentalUI.view.Main', {
                                     {
                                         text: 'Submit',
                                         handler: function() {
-                                            var grid = Ext.getCmp('moviesRental');
-                                            var selectedMovies = grid.getSelection();
-                                            console.log('Selected movies:', selectedMovies);
-                                            // Perform further processing with the selected movies
+                                            var controller = this.up('window').down('moviesRental').getController();
+                                            controller.onSubmitClick();
                                         }
                                     }
                                 ]

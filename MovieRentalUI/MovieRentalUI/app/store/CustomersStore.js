@@ -30,14 +30,5 @@ Ext.define('MovieRentalUI.store.CustomersStore', {
 
 
 
-    listeners: {
-        write: function(store, operation, eOpts) {
-            if (operation.success) {
-                Ext.Msg.alert('Success', 'Customer added successfully');
-            } else {
-                Ext.Msg.alert('Error', 'Failed to add customer');
-                console.log(operation.getError());
-            }
-        }
-    }
+    
 });
