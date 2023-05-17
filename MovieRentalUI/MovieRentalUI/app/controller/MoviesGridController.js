@@ -146,7 +146,30 @@ Ext.define('MovieRentalUI.controller.MoviesGridController', {
                 return regex.test(record.get('title')) || regex.test(record.get('genre'));
             });
         }
-    }
+    },
+    onSearchInputChange: function (textfield, newValue, oldValue, eOpts) {
+        var grid = this.getView();
+        var store = grid.getStore();
+
+        store.clearFilter();
+
+        if (newValue) {
+            store.filterBy(function (record) {
+                var searchValue = newValue.toLowerCase();
+                var fieldsToSearch = ['title', 'genre', 'releaseYear'];
+
+                for (var i = 0; i < fieldsToSearch.length; i++) {
+                    var fieldValue = record.get(fieldsToSearch[i]).toLowerCase();
+
+                    if (fieldValue.indexOf(searchValue) !== -1) {
+                        return true; // Match found
+                    }
+                }
+
+                return false; // No match found
+            });
+        }
+    },
     
 });
 

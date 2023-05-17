@@ -5,7 +5,7 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
     controller: 'movierentalcontroller', // Add the controller
     // Set the viewmodel
     viewModel: {
-        type: 'moviesvm'
+        type: 'movierentalvm'
     },
     
     layout: 'container', // Use container layout
@@ -14,7 +14,7 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
             xtype: 'panel',
             title: 'Customers',
             margin: '0 0 50 0',
-            
+            flex: 1,
             scrollable: 'vertical', // Make the panel scrollable vertically
             items: [
                 {
@@ -31,14 +31,26 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
                         { text: 'Email', dataIndex: 'email' },
                         { text: 'Phone', dataIndex: 'phone' },
                         { text: 'Address', dataIndex: 'address' },
-                        { text: 'Rent Orders', dataIndex: 'rentOrders' },
+                        
                     ],
                     forceFit: true,
                     selModel: {
                         selType: 'rowmodel', // Use rowmodel for radio button selection
                         checkOnly: true // Only allow checking rows, not unchecking
                     },
-                }
+                    tbar: [
+                        {
+                            xtype: 'textfield',
+                            fieldLabel: 'Search',
+                            labelWidth: 50,
+                            width: 200,
+                            listeners: {
+                                change: 'onCustomerInputChange' // Add the change listener
+                            }
+                        },
+                    ]
+                },
+                
             ]
         },
         {
@@ -58,8 +70,6 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
                         { text: 'Title', dataIndex: 'title' },
                         { text: 'Release Year', dataIndex: 'releaseYear' },
                         { text: 'Genre', dataIndex: 'genre' },
-                        { text: 'Rating', dataIndex: 'rating' },
-                        { text: 'Rental Price', dataIndex: 'rentalPrice' },
                         { text: 'Available Copies', dataIndex: 'availableCopies' },
                     ],
                     forceFit: true,
@@ -67,12 +77,23 @@ Ext.define('MovieRentalUI.view.MovieRentalGrid', {
                         selType: 'checkboxmodel', // Enable multiple item selection
                         mode: 'MULTI'
                     },
+                    tbar: [
+                        {
+                            xtype: 'textfield',
+                            fieldLabel: 'Search',
+                            labelWidth: 50,
+                            width: 200,
+                            listeners: {
+                                change: 'onMoviesInputChange' // Add the change listener
+                            }
+                        },
+                    ]
                 }
             ]
         }
     ],
     width: 900,
-    height: 500,
-    margin: '50 0 0 0',
+    height: 900,
+    margin: '0 0 0 0',
     
 });

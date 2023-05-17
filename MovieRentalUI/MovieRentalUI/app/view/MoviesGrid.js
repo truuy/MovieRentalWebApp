@@ -16,8 +16,6 @@ Ext.define('MovieRentalUI.view.MoviesGrid', {
         { text: 'Title', dataIndex: 'title' },
         { text: 'Release Year', dataIndex: 'releaseYear' },
         { text: 'Genre', dataIndex: 'genre' },
-        { text: 'Rating', dataIndex: 'rating' },
-        { text: 'Rental Price', dataIndex: 'rentalPrice' },
         { text: 'Available Copies', dataIndex: 'availableCopies' },
     ],
     forceFit: true,
@@ -26,9 +24,19 @@ Ext.define('MovieRentalUI.view.MoviesGrid', {
     autoScroll: true,
     controller: 'moviesgridcontroller', // Add the controller
     listeners: {
-        itemclick: 'onMovieItemClick'
+        itemclick: 'onItemClick'
     },
     tbar: [
+        {
+            xtype: 'textfield',
+            fieldLabel: 'Search',
+            labelWidth: 50,
+            width: 200,
+            listeners: {
+                change: 'onSearchInputChange'
+            }
+        },
+        '->',
         {
             text: 'Add Movie',
             handler: function() {
@@ -52,18 +60,6 @@ Ext.define('MovieRentalUI.view.MoviesGrid', {
                             xtype: 'textfield',
                             name: 'genre',
                             fieldLabel: 'Genre',
-                            width: 300
-                        },
-                        {
-                            xtype: 'textfield',
-                            name: 'rating',
-                            fieldLabel: 'Rating',
-                            width: 300
-                        },
-                        {
-                            xtype: 'textfield',
-                            name: 'rentalPrice',
-                            fieldLabel: 'Rental Price',
                             width: 300
                         },
                         {

@@ -16,13 +16,26 @@ namespace MovieRental.Controllers
             this.videoShopContext = videoShopContext;
         }
 
-        // GET api/orders
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
-            var orders = await videoShopContext.RentOrders.ToListAsync();
-            return Ok(orders);
+            var orders = await videoShopContext.RentOrders
+                .Include(ro => ro.Customer) // Include the Customer entity
+                .Include(ro => ro.Item) // Include the Movie entity
+                .ToListAsync();
+
+            var orderData = orders.Select(order => new
+            {
+                order.OrderId,
+                order.OrderDate,
+                order.OrderQuantity,
+                CustomerName = order.Customer.FirstName + " " + order.Customer.LastName,
+                MovieTitle = order.Item.Title
+            });
+
+            return Ok(orderData);
         }
+
 
 
         // GET api/orders/movie/{movieId}
@@ -82,8 +95,21 @@ namespace MovieRental.Controllers
             videoShopContext.RentOrders.AddRange(newOrders);
             videoShopContext.SaveChanges();
 
+            // Decrease the available copies of the rented movies
+            foreach (var orderModel in payload.orderModels)
+            {
+                var movie = videoShopContext.Movies.FirstOrDefault(m => m.MovieId == orderModel.ItemId);
+                if (movie != null)
+                {
+                    movie.AvailableCopies -= orderModel.OrderQuantity;
+                }
+            }
+
+            videoShopContext.SaveChanges();
+
             return Ok(newOrders);
         }
+
 
 
 
@@ -109,21 +135,41 @@ namespace MovieRental.Controllers
             return Ok(existingOrder);
         }
 
-        // DELETE api/orders/{orderId}
-        [HttpDelete("deleteOrder/{orderId}")]
-        public async Task<IActionResult> DeleteOrder(Guid orderId)
+        // DELETE api/orders
+        [HttpDelete("deleteOrder")]
+        public async Task<IActionResult> DeleteOrders([FromBody] List<Guid> orderIds)
         {
-            var existingOrder = videoShopContext.RentOrders.FirstOrDefault(order => order.OrderId == orderId);
-            if (existingOrder == null)
+            var existingOrders = videoShopContext.RentOrders
+                .Include(order => order.Item) // Include the Item (Movie) entity
+                .Where(order => orderIds.Contains(order.OrderId))
+                .ToList();
+
+            if (existingOrders.Count == 0)
             {
                 return NotFound();
             }
 
-            // Remove the order from the database
-            videoShopContext.RentOrders.Remove(existingOrder);
+            // Get the movie IDs from the existing orders
+            var movieIds = existingOrders.Select(order => order.Item.MovieId).Distinct().ToList();
+
+            // Remove the orders from the database
+            videoShopContext.RentOrders.RemoveRange(existingOrders);
+
+            // Increment the available copies for each movie
+            foreach (var movieId in movieIds)
+            {
+                var movie = videoShopContext.Movies.FirstOrDefault(m => m.MovieId == movieId);
+                if (movie != null)
+                {
+                    movie.AvailableCopies++; // Increment available copies
+                }
+            }
+
             videoShopContext.SaveChanges();
 
             return Ok();
         }
+
+
     }
 }

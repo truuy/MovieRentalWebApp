@@ -10,7 +10,7 @@ Ext.define('MovieRentalUI.view.CustomerGrid', {
     bind: {
         store: '{customers}'
     },
-
+    
     columns: [
         { text: 'Customer ID', dataIndex: 'customerId' },
         { text: 'First Name', dataIndex: 'firstName' },
@@ -39,6 +39,16 @@ Ext.define('MovieRentalUI.view.CustomerGrid', {
     },
     
     tbar: [
+        {
+            xtype: 'textfield',
+            fieldLabel: 'Search',
+            labelWidth: 50,
+            width: 200,
+            listeners: {
+                change: 'onSearchInputChange' // Add the change listener
+            }
+        },
+        '->',
         {
             text: 'Add Customer',
             handler: function() {

@@ -131,5 +131,30 @@ Ext.define('MovieRentalUI.controller.CustomerGridController', {
         });
 
         customerWindow.show();
-    }
+    },
+    onSearchInputChange: function (textfield, newValue, oldValue, eOpts) {
+        var grid = this.getView();
+        var store = grid.getStore();
+
+        store.clearFilter();
+
+        if (newValue) {
+            store.filterBy(function (record) {
+                var searchValue = newValue.toLowerCase();
+                var fieldsToSearch = ['firstName', 'lastName', 'email', 'phone', 'address'];
+
+                for (var i = 0; i < fieldsToSearch.length; i++) {
+                    var fieldValue = record.get(fieldsToSearch[i]).toLowerCase();
+
+                    if (fieldValue.indexOf(searchValue) !== -1) {
+                        return true; // Match found
+                    }
+                }
+
+                return false; // No match found
+            });
+        }
+    },
+
+    
 });

@@ -9,8 +9,8 @@ Ext.define('MovieRentalUI.store.RentStore', {
         api: {
             create: 'https://localhost:7177/api/orders/addOrder',
             read: 'https://localhost:7177/api/orders',
-            update: 'https://localhost:7177/api/orders/updateOrder',
-            destroy: 'https://localhost:7177/api/orders/deleteOrder'
+            update: 'https://localhost:7177/api/orders/updateOrder/',
+            destroy: 'https://localhost:7177/api/orders/deleteOrder/'
         },
         actionMethods: {
             create: 'POST',

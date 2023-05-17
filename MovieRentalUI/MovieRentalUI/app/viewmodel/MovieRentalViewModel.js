@@ -1,9 +1,14 @@
-Ext.define('MovieRentalUI.viewmodel.CustomersViewModel', {
+Ext.define('MovieRentalUI.viewmodel.MovieRentalViewModel', {
     extend: 'Ext.app.ViewModel',
-    alias: 'viewmodel.customersvm',
+    alias: 'viewmodel.movierentalvm',
     stores: {
         customers: {
             type: 'customersstore',
+            autoLoad: true,
+            
+        },
+        movies: {
+            type: 'moviesstore',
             autoLoad: true,
             
         }
@@ -14,5 +19,3 @@ Ext.define('MovieRentalUI.viewmodel.CustomersViewModel', {
         
     }
 });
-
-
