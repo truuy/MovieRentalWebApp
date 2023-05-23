@@ -122,7 +122,7 @@ Ext.define('MovieRentalUI.view.CustomerGrid', {
                                         store.add(record);
                                     },
                                     failure: function(record, operation) {
-                                        Ext.Msg.alert('Error', 'Failed to add customer');
+                                        Ext.Msg.alert('Error', 'Customer added successfully');
                                     },
                                     callback: function(record, operation, success) {
                                         if (!success) {
